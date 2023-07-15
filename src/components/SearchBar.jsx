@@ -1,9 +1,9 @@
 import React from 'react';
 
 
-const SearchBar = () => {
+const SearchBar = (props) => {
     return (
-        <div className="bg-neutral-700 p-2 rounded-lg flex items-center w-full">
+        <div className={`daisy-input daisy-input-bordered bg-neutral-700 p-2 rounded-lg flex items-center w-full ${props.className}`}>
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"

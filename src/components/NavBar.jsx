@@ -64,7 +64,7 @@ const NavBar = () => {
                     <div className="flex-grow">
                         <ul class="daisy-menu daisy-menu-horizontal px-1 hidden 2xl:flex">
                             <li><Link href="/">Home</Link></li>
-                            <li tabindex="0">
+                            <li tabIndex="0">
                                 <details>
                                     <summary>Genre</summary>
                                     <ul className="!bg-neutral-800 text-neutral-200 grid grid-cols-3 gap-4 w-96">
@@ -100,9 +100,11 @@ const NavBar = () => {
                     <div className="w-96">
                         <SearchBar />
                     </div>
-                    <button className="text-gray-200 bg-transparent border border-gray-200 rounded py-2 px-4 ml-4 focus:outline-none">
-                        Sign In
-                    </button>
+                    <Link href="/login">
+                        <div className="daisy-btn daisy-btn-primary ml-4 focus:outline-none h-0">
+                            Login
+                        </div>
+                    </Link>
                 </div>
             </Container>
         </nav>
