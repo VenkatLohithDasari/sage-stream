@@ -1,18 +1,67 @@
-import React from 'react'
+"use client"
+
+import React, { useState, useEffect } from 'react'
 import Image from 'next/image';
 import Link from 'next/link';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
-import SearchBar from './SearchBar';
-import Container from './Container';
+import SearchBar from '../SearchBar';
+import Container from '../Container';
+import DropDownMenu from './DropDownMenu';
 
-import websiteLogo from "../../public/assets/images/sage stream logo.png";
+import websiteLogo from "../../../public/assets/images/sage stream logo.png";
 
 
 const NavBar = () => {
+    const router = useRouter();
+    const [logoutProgress, setLogoutProgress] = useState(false)
+    const [user, setUser] = useState({
+        isLoggedIn: false,
+        data: null,
+    })
+
+    useEffect(() => {
+        async function getUserData() {
+            try {
+                const response = await axios.get("/api/users/me");
+                if (response.status == 200) {
+                    let user = response.data;
+                    setUser({
+                        isLoggedIn: true,
+                        data: user,
+                    })
+                }
+            } catch (error) {
+                console.log(" ")
+            }
+        }
+        getUserData();
+    }, [])
+
+    const logoOutHandle = async () => {
+        setLogoutProgress(true)
+        try {
+            const response = await axios("/api/users/logout")
+            if (response.status == 200) {
+                setUser({
+                    isLoggedIn: false,
+                    data: null,
+                })
+            }
+        } catch (error) {
+            console.log(" ")
+        } finally {
+            setLogoutProgress(false)
+            router.push("/")
+        }
+    }
+
+
     return (
         <nav className="bg-neutral-800">
             <Container>
-                <div className="flex items-center py-3">
+                <div className="flex items-center py-3 h-16">
                     <div className="daisy-dropdown 2xl:hidden">
                         <label tabIndex={0} className="daisy-btn daisy-btn-circle daisy-swap mr-4 !bg-neutral-800 text-neutral-200 border-none">
 
@@ -64,9 +113,8 @@ const NavBar = () => {
                     <div className="flex-grow">
                         <ul class="daisy-menu daisy-menu-horizontal px-1 hidden 2xl:flex">
                             <li><Link href="/">Home</Link></li>
-                            <li tabIndex="0">
-                                <details>
-                                    <summary>Genre</summary>
+                            <li>
+                                <DropDownMenu title="Genre">
                                     <ul className="!bg-neutral-800 text-neutral-200 grid grid-cols-3 gap-4 w-96">
                                         <li><Link href="#">Action</Link></li>
                                         <li><Link href="#">Adventure</Link></li>
@@ -88,7 +136,7 @@ const NavBar = () => {
                                         <li><Link href="#">Suspense</Link></li>
 
                                     </ul>
-                                </details>
+                                </DropDownMenu>
                             </li>
                             <li><Link href="#">Types</Link></li>
                             <li><Link href="/newest">Newest</Link></li>
@@ -100,11 +148,41 @@ const NavBar = () => {
                     <div className="w-96">
                         <SearchBar />
                     </div>
-                    <Link href="/login">
-                        <div className="daisy-btn daisy-btn-primary ml-4 focus:outline-none h-0">
-                            Login
+                    {user.isLoggedIn &&
+                        // <div className="daisy-avatar ml-4">
+                        //     <div className="rounded-full h-12">
+                        //         <img src={user.data.profilePicture} fill alt="User Profile Picture" />
+                        //     </div>
+                        // </div>
+                        <div className="daisy-dropdown daisy-dropdown-end ml-4">
+                            <label tabIndex={0} className="daisy-btn daisy-btn-ghost daisy-btn-circle daisy-avatar">
+                                <Image className="w-10 rounded-full" src={user.data.profilePicture} fill alt="User Profile Picture" />
+                            </label>
+                            <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow daisy-menu daisy-menu-sm daisy-dropdown-content !bg-neutral-800 text-neutral-200 rounded-box w-52">
+                                <li>
+                                    <a className="justify-between">
+                                        Profile
+                                        <span className="daisy-badge">New</span>
+                                    </a>
+                                </li>
+                                <li><a>Settings</a></li>
+                                <li><Link href="#" onClick={!logoutProgress ? logoOutHandle : null}>
+                                    {logoutProgress ?
+                                        <span class="daisy-loading daisy-loading-dots daisy-loading-sm"></span>
+                                        :
+                                        "Logout"
+                                    }
+                                </Link></li>
+                            </ul>
                         </div>
-                    </Link>
+                    }
+                    {!user.isLoggedIn &&
+                        <Link href="/login">
+                            <div className="daisy-btn daisy-btn-primary ml-4 focus:outline-none h-0">
+                                Login
+                            </div>
+                        </Link>
+                    }
                 </div>
             </Container>
         </nav>

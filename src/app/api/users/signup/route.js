@@ -1,5 +1,6 @@
 import { connectToDB } from "@/utils/database";
 import User from "@/models/userModel";
+import ProfilePics from "@/models/profilePicsModel";
 import bcrypt from "bcrypt";
 
 export const POST = async (request) => {
@@ -22,10 +23,16 @@ export const POST = async (request) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
+        //get one random profile pic to assign one to user
+        const profilePic = await ProfilePics.findOne({ name: "profilePics" });
+        const onePic =
+            profilePic.pics[Math.floor(Math.random() * profilePic.pics.length)];
+
         const newUser = new User({
             username,
             email,
             password: hashedPassword,
+            profilePicture: onePic,
         });
 
         const savedUser = await newUser.save();
