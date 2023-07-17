@@ -1,34 +1,48 @@
 "use client";
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image';
-import websiteLogo from "../../../public/assets/images/sage stream logo.png";
+import websiteLogo from "../../../../public/assets/images/sage stream logo.png";
 import Link from 'next/link';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { getCsrfToken } from "next-auth/react"
 
 const Page = () => {
     const router = useRouter();
     const [loading, setLoading] = useState(false)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [csrfToken, setCsrfToken] = useState('')
+
+    useEffect(() => {
+        async function myFunction() {
+            let csrfToken = await getCsrfToken()
+            setCsrfToken(csrfToken)
+        }
+        myFunction();
+    }, [])
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
             setLoading(true)
-            let user = {
-                email: email,
-                password: password
+            const formData = {
+                csrfToken,
+                email,
+                password
             }
-            const response = await axios.post("/api/users/login", user);
+            const response = await axios.post('/api/auth/callback/credentials', formData);
 
             if (response.status === 200) {
-                router.push("/home")
+                window.location.href = "/home"
             }
         } catch (error) {
-
+            console.error(error);
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -40,7 +54,7 @@ const Page = () => {
                         className="hidden bg-cover lg:block lg:w-1/2"
                         style={{
                             backgroundImage:
-                                'url("https://aniyuki.com/wp-content/uploads/2022/08/aniyuki-hello-30.gif")',
+                                `url("/assets/images/hello-1.gif")`,
                             backgroundSize: 'cover',
                             backgroundRepeat: 'no-repeat',
                             backgroundPosition: 'center',
@@ -58,6 +72,7 @@ const Page = () => {
                             Welcome back!
                         </p>
                         <form onSubmit={!loading ? handleSubmit : (e) => { e.preventDefault() }}>
+                            <input name="csrfToken" type="hidden" defaultValue={csrfToken} required />
                             <div className="mt-4">
                                 <label
                                     className="block mb-2 text-sm font-medium text-gray-600 dark:text-gray-200"
@@ -104,14 +119,14 @@ const Page = () => {
                             </div>
                             <div className="mt-6">
                                 <button type="submit" className="w-full font-medium capitalize daisy-btn daisy-btn-primary transition-colors duration-300 transform">
-                                    {loading ? <span className="daisy-loading daisy-loading-dots daisy-loading-md"></span> : "Login"}
+                                    {loading ? <span className="daisy-loading daisy-loading-dots daisy-loading-md"></span> : "Sign In"}
                                 </button>
                             </div>
                         </form>
                         <div className="flex items-center justify-between mt-4">
                             <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4" />
                             <Link
-                                href="/signup"
+                                href="/auth/signup"
                                 className="text-xs text-gray-500 uppercase dark:text-gray-400 hover:underline"
                             >
                                 or sign up

@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, "password is required"],
     },
-    isVerfied: {
+    isVerified: {
         type: Boolean,
         default: false,
     },
@@ -36,6 +36,8 @@ const userSchema = new mongoose.Schema({
     verifyToken: String,
     verifyTokenExpiry: Date,
 });
+
+userSchema.index({ username: 1, email: 1 });
 
 const User = mongoose.models.users || mongoose.model("users", userSchema);
 

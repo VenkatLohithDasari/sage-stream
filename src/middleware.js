@@ -1,28 +1,27 @@
+import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
 
-export function middleware(request) {
-    const path = request.nextUrl.pathname;
+export default withAuth(
+    async function middleware(request) {
+        let pathname = request.nextUrl.pathname;
+        let authtoken = request.nextauth.token;
 
-    const isPublicPath = path === '/login' || path === '/signup'
-
-    const token = request.cookies.get('token')?.value || ''
-
-    if (isPublicPath && token) {
-        return NextResponse.redirect(new URL('/', request.nextUrl))
+        if (pathname.startsWith("/admin") && authtoken?.user.role !== "admin") {
+            return NextResponse.rewrite(
+                new URL("/not-so-working-url", request.url)
+            );
+        }
+        // if (pathname.startsWith("/auth") && !!authtoken?.user) {
+        //     return NextResponse.redirect(new URL("/home", request.url));
+        // }
+    },
+    {
+        callbacks: {
+            authorized: ({ token }) => !!token,
+        },
     }
+);
 
-    if (!isPublicPath && !token) {
-        return NextResponse.redirect(new URL('/login', request.nextUrl))
-    }
-}
-
-// See "Matching Paths" below to learn more
 export const config = {
-    matcher: [
-      '/',
-      '/profile',
-      '/login',
-      '/signup',
-      '/verifyemail'
-    ]
-  }
+    matcher: ["/user/:path*", "/admin/:path*"],
+};

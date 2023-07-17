@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Image from 'next/image';
-import websiteLogo from "../../../public/assets/images/sage stream logo.png";
+import websiteLogo from "../../../../public/assets/images/sage stream logo.png";
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
@@ -57,7 +57,7 @@ const Page = () => {
             const response = await axios.post("/api/users/signup", users);
 
             if (response.status === 200) {
-                router.push("/login");
+                router.push("/auth/signin");
             }
         } catch (error) {
             console.log(error);
@@ -161,10 +161,10 @@ const Page = () => {
                         <div className="flex items-center justify-between mt-4">
                             <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4" />
                             <Link
-                                href="/login"
+                                href="/auth/signin"
                                 className="text-xs text-gray-500 uppercase dark:text-gray-400 hover:underline"
                             >
-                                or login
+                                or Sign In
                             </Link>
                             <span className="w-1/5 border-b dark:border-gray-600 md:w-1/4" />
                         </div>
