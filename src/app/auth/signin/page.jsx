@@ -9,11 +9,11 @@ import { useRouter } from 'next/navigation';
 import { getCsrfToken } from "next-auth/react"
 
 const Page = () => {
-    const router = useRouter();
     const [loading, setLoading] = useState(false)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [csrfToken, setCsrfToken] = useState('')
+    const [error, setError] = useState(false)
 
     useEffect(() => {
         async function myFunction() {
@@ -34,13 +34,25 @@ const Page = () => {
                 email,
                 password
             }
-            const response = await axios.post('/api/auth/callback/credentials', formData);
+            const response = await axios.post('/api/auth/callback/credentials',
+                formData, {
+                maxRedirects: 10
+            }
+            );
+
+            const redirectUrls = response.request.responseURL
+            const errorPart = '&error=CredentialsSignin';
+
+            if (redirectUrls.includes(errorPart)) {
+                throw new Error("Failed");
+            }
 
             if (response.status === 200) {
+                setError(false)
                 window.location.href = "/home"
             }
         } catch (error) {
-            console.error(error);
+            setError(true)
         } finally {
             setLoading(false)
         }
@@ -71,6 +83,12 @@ const Page = () => {
                         <p className="mt-3 text-xl text-center text-gray-600 dark:text-gray-200">
                             Welcome back!
                         </p>
+                        {error &&
+                            <div className="daisy-alert daisy-alert-error mb-2 mt-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                <span>Failed, check your credentials and try again.</span>
+                            </div>
+                        }
                         <form onSubmit={!loading ? handleSubmit : (e) => { e.preventDefault() }}>
                             <input name="csrfToken" type="hidden" defaultValue={csrfToken} required />
                             <div className="mt-4">
