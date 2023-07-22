@@ -93,31 +93,26 @@ const NavBar = ({ session }) => {
                         <div className="flex-grow">
                             <ul className="daisy-menu daisy-menu-horizontal px-1 hidden 2xl:flex">
                                 <li><Link href="/">Home</Link></li>
-                                <li>
-                                    <DropDownMenu title="Genre">
-                                        <ul className="!bg-neutral-800 text-neutral-200 grid grid-cols-3 gap-4 w-96">
-                                            <li><Link href="#">Action</Link></li>
-                                            <li><Link href="#">Adventure</Link></li>
-                                            <li><Link href="#">Avant Garde</Link></li>
-                                            <li><Link href="#">Award Winning</Link></li>
-                                            <li><Link href="#">Boys Love</Link></li>
-                                            <li><Link href="#">Comedy</Link></li>
-                                            <li><Link href="#">Drama</Link></li>
-                                            <li><Link href="#">Fantasy</Link></li>
-                                            <li><Link href="#">Girls Love</Link></li>
-                                            <li><Link href="#">Gourmet</Link></li>
-                                            <li><Link href="#">Horror</Link></li>
-                                            <li><Link href="#">Mystery</Link></li>
-                                            <li><Link href="#">Romance</Link></li>
-                                            <li><Link href="#">Sci-Fi</Link></li>
-                                            <li><Link href="#">Slice of Life</Link></li>
-                                            <li><Link href="#">Sports</Link></li>
-                                            <li><Link href="#">Supernatural</Link></li>
-                                            <li><Link href="#">Suspense</Link></li>
-
-                                        </ul>
-                                    </DropDownMenu>
-                                </li>
+                                <DropDownMenu title="Genre">
+                                    <li><Link href="#">Action</Link></li>
+                                    <li><Link href="#">Adventure</Link></li>
+                                    <li><Link href="#">Avant Garde</Link></li>
+                                    <li><Link href="#">Award Winning</Link></li>
+                                    <li><Link href="#">Boys Love</Link></li>
+                                    <li><Link href="#">Comedy</Link></li>
+                                    <li><Link href="#">Drama</Link></li>
+                                    <li><Link href="#">Fantasy</Link></li>
+                                    <li><Link href="#">Girls Love</Link></li>
+                                    <li><Link href="#">Gourmet</Link></li>
+                                    <li><Link href="#">Horror</Link></li>
+                                    <li><Link href="#">Mystery</Link></li>
+                                    <li><Link href="#">Romance</Link></li>
+                                    <li><Link href="#">Sci-Fi</Link></li>
+                                    <li><Link href="#">Slice of Life</Link></li>
+                                    <li><Link href="#">Sports</Link></li>
+                                    <li><Link href="#">Supernatural</Link></li>
+                                    <li><Link href="#">Suspense</Link></li>
+                                </DropDownMenu>
                                 <li><Link href="#">Types</Link></li>
                                 <li><Link href="/newest">Newest</Link></li>
                                 <li><Link href="/updated">Updated</Link></li>
