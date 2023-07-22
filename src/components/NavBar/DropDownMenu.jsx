@@ -31,13 +31,10 @@ const DropDownMenu = (props) => {
                     <ChevronUpIcon className="daisy-swap-on w-full h-full" />
                     <ChevronDownIcon className="daisy-swap-off w-full h-full" />
                 </label></Link>
-                {isOpen && (
-                    <ul class="menu rounded-box !bg-neutral-800 text-neutral-200 daisy-dropdown-content grid grid-cols-3 gap-4 absolute top-[150%] left-0 p-2"
-                    >
-                        {props.children}
-                    </ul>
-                )}
-            </li>
+                <ul className={`menu rounded-box !bg-neutral-800 text-neutral-200 daisy-dropdown-content grid grid-rows-6 grid-flow-col gap-4 absolute top-[160%] left-[-15%] p-2 ${isOpen ? 'scale-y-100' : 'scale-y-0'} origin-top transition-all ease-in-out duration-150`}>
+                    {props.children}
+                </ul>
+            </li >
         </>
     )
 }
