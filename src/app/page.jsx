@@ -48,7 +48,7 @@ const ImageWithButton = () => {
                 width={832}
             />
             <button className="absolute bottom-0 left-1/2 transform -translate-x-1/2 bg-yellow-500 text-neutral-800 px-4 py-2 rounded-full flex items-center h-14 font-medium text-lg">
-                Go to homepage
+                <Link href="/home">Go to homepage</Link>
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
