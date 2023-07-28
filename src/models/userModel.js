@@ -44,6 +44,9 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.index({ username: 1, email: 1 });
+userSchema.index({ username: 1 });
+userSchema.index({ email: 1 });
+userSchema.index({ isAdmin: 1 });
 
 const User = mongoose.models.users || mongoose.model("users", userSchema);
 

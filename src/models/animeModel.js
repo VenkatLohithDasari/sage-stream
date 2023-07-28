@@ -105,14 +105,23 @@ const animeSchema = new mongoose.Schema({
     score: {
         type: String,
     },
+    scoreNumeric: {
+        type: Number,
+    },
     scoreStats: {
         type: String,
     },
     ranked: {
         type: String,
     },
+    rankedNumeric: {
+        type: Number,
+    },
     popularity: {
         type: String,
+    },
+    popularityNumeric: {
+        type: Number,
     },
     members: {
         type: String,
@@ -127,6 +136,15 @@ const animeSchema = new mongoose.Schema({
 });
 
 animeSchema.index({ title: 1, englishTitle: 1 });
+animeSchema.index({ englishTitle: 1 });
+animeSchema.index({ title: 1 });
+animeSchema.index({ genres: 1, status: 1, premiered: 1, rating: 1 });
+animeSchema.index({ status: 1 });
+animeSchema.index({ premiered: 1 });
+animeSchema.index({ rating: 1 });
+animeSchema.index({ rankedNumeric: 1 });
+animeSchema.index({ popularityNumeric: 1 });
+animeSchema.index({ scoreNumeric: 1 });
 
 const Anime = mongoose.models.anime || mongoose.model("anime", animeSchema);
 
