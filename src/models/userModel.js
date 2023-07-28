@@ -31,6 +31,12 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
+    favorites: {
+        type: Array,
+    },
+    watchlist: {
+        type: Array,
+    },
     forgotPasswordToken: String,
     forgotPasswordTokenExpiry: Date,
     verifyToken: String,

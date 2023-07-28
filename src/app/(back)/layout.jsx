@@ -1,5 +1,5 @@
-import React from 'react'
-import websiteLogo from "../../../public/assets/images/sage stream logo.png"
+import React from 'react';
+import websiteLogo from "../../../public/assets/images/sage stream logo.png";
 import Image from 'next/image';
 
 import SideBarMenuBtn from '@/components/Admin/SideBarMenuBtn';
