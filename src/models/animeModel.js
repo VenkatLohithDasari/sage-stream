@@ -133,6 +133,20 @@ const animeSchema = new mongoose.Schema({
     url: {
         type: String,
     },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
+    updatedAt: {
+        type: Date,
+        default: Date.now,
+    },
+    addedEpisodes: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Episode",
+        },
+    ],
 });
 
 animeSchema.index({ title: 1, englishTitle: 1 });
@@ -145,6 +159,7 @@ animeSchema.index({ rating: 1 });
 animeSchema.index({ rankedNumeric: 1 });
 animeSchema.index({ popularityNumeric: 1 });
 animeSchema.index({ scoreNumeric: 1 });
+animeSchema.index({ updatedAt: 1 });
 
 const Anime = mongoose.models.anime || mongoose.model("anime", animeSchema);
 
