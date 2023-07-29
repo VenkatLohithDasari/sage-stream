@@ -8,7 +8,7 @@ const SideNavBarMenu = () => {
     return (
         <nav className="-mx-3 space-y-6 ">
             <SideBarCategory title="Dashboard">
-                <SideBarMenuBtn href="/admin/dashboard">
+                <SideBarMenuBtn href="/admin">
                     <HomeModernIcon className="w-5 h-5" />
                     <span className="mx-2 text-sm font-medium">Overview</span>
                 </SideBarMenuBtn>
