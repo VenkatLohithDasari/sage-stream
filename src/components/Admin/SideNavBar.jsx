@@ -48,7 +48,7 @@ const SideNavBar = () => {
                     <aside className={`${isOpen ? "overflow-y-auto px-5 py-8" : ""}`}>
                         <label className={`daisy-swap daisy-swap-rotate ${isOpen ? "" : "px-3 py-8"}`}>
                             {/* this hidden checkbox controls the state */}
-                            <input type="checkbox" checked={isOpen} onClick={toggleMenu} />
+                            <input type="checkbox" checked={isOpen} onClick={toggleMenu} readOnly />
                             {/* hamburger icon */}
                             <svg className="daisy-swap-off fill-current w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z" /></svg>
                             {/* close icon */}
